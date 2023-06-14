@@ -1,0 +1,95 @@
+C51 COMPILER V9.60.0.0   1                                                                 10/20/2022 17:46:34 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE 1
+OBJECT MODULE PLACED IN .\Objects\1.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE 1.c OMF2 OPTIMIZE(8,SPEED) BROWSE DEBUG PRINT(.\Listings\1.lst) TABS(2) 
+                    -OBJECT(.\Objects\1.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include <string.h>
+   3          
+   4          sbit led1 = P2^1;
+   5          sbit led2 = P2^2;
+   6          
+   7          int i, cout = 0;
+   8          unsigned char flag = 0;
+   9          unsigned char revData;
+  10          
+  11          void serial_init(void)
+  12          {
+  13   1        TMOD = 0x20;
+  14   1        TH1 = 0xFD;
+  15   1        SCON = 0x50;
+  16   1        TR1 = 1;
+  17   1        
+  18   1        EA = 1;
+  19   1        ES = 1;
+  20   1      }
+  21          
+  22          void serial_send(unsigned char x)
+  23          { 
+  24   1        SBUF = x;
+  25   1        while (TI == 0);
+  26   1        TI = 0;
+  27   1      }
+  28          
+  29          void serial_ISR(void) interrupt 4
+  30          {
+  31   1        if(RI == 1){
+  32   2          revData = SBUF;
+  33   2          RI = 0;
+  34   2          
+  35   2          flag = 1;
+  36   2        }
+  37   1      }
+  38          
+  39          void setup()
+  40          {
+  41   1      serial_send(9600);
+  42   1      }
+  43          
+  44          void main (void)
+  45          {
+  46   1        led1 = 0;
+  47   1        led2 = 0;
+  48   1        serial_init();
+  49   1        while(1)
+  50   1        {
+  51   2          if(flag == 1)
+  52   2            {
+  53   3              for(cout=49; cout <= 56; cout)
+  54   3              {
+C51 COMPILER V9.60.0.0   1                                                                 10/20/2022 17:46:34 PAGE 2   
+
+  55   4            if(revData == '1') led1 = 1;
+  56   4            if(revData == '2') led1 = 0;
+  57   4            if(revData == '3') led2 = 1;
+  58   4            if(revData == '4') led2 = 0;
+  59   4                
+  60   4              }
+  61   3            serial_send(cout);
+  62   3            flag = 0; 
+  63   3        }
+  64   2            }
+  65   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    115    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

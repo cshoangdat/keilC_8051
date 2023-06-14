@@ -1,0 +1,96 @@
+C51 COMPILER V9.60.0.0   BAI5                                                              10/08/2022 15:37:12 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BAI5
+OBJECT MODULE PLACED IN .\Objects\Bai5.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE D:\Downloads\Download\Bai5.c OMF2 OPTIMIZE(8,SPEED) BROWSE DEBUG PRINT(.
+                    -\Listings\Bai5.lst) TABS(2) OBJECT(.\Objects\Bai5.obj)
+
+line level    source
+
+   1          #include <REGX51.H>
+   2          #include <rtx51tny.h>
+   3            
+   4            sbit btn1 = P1^2;
+   5            sbit btn2 = P1^3;
+   6            sbit led1 = P1^0;
+   7            sbit led2 = P1^1;
+   8            sbit led3 = P2^1;
+   9          void delayMS(unsigned int t)
+  10          {
+  11   1        int i,j;
+  12   1        for(i=0;i<t;i++)
+  13   1         for(j=0;j<123;j++){}
+  14   1      }
+  15          
+  16          void setup()
+  17          {
+  18   1        btn1=0;
+  19   1        btn2=0;
+  20   1        led1=0;
+  21   1        led2=0;
+  22   1        
+  23   1      }
+  24          void daoled1()
+  25          {
+  26   1          led1=~led1;
+  27   1        delayMS(300);
+  28   1        while(btn1==1);
+  29   1      }
+  30          void daoled2()
+  31          {
+  32   1        led2=~led2;
+  33   1        delayMS(300);
+  34   1        while(btn2==2);
+  35   1      }
+  36          
+  37          void Port1_task (void) _task_ 1
+  38          {
+  39   1        setup();
+  40   1      while(1)
+  41   1      {
+  42   2      if(btn1==1)
+  43   2          daoled1();  
+  44   2        if(btn2==1)
+  45   2          daoled2();
+  46   2      }
+  47   1      }
+  48          
+  49          void Port2_task (void) _task_ 2
+  50          {
+  51   1        led3=0;
+  52   1      while(1)
+  53   1      {
+  54   2       led3=~led3;
+C51 COMPILER V9.60.0.0   BAI5                                                              10/08/2022 15:37:12 PAGE 2   
+
+  55   2        delayMS(100);
+  56   2      }
+  57   1      }
+  58          
+  59          
+  60          void startup_task (void) _task_ 0
+  61          {
+  62   1      os_create_task (1); /* Create serial_io Task */
+  63   1      os_create_task (2); /* Create serial_cmds Task */
+  64   1      
+  65   1      os_delete_task (0); /* Delete the Startup Task */
+  66   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    112    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

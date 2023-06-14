@@ -1,0 +1,7 @@
+".\Objects\Bai_tap_3.obj",
+".\Objects\delay.obj",
+".\Objects\keypad4x4.obj",
+".\Objects\LCD2004.obj" 
+TO ".\Objects\TT_KTMT" 
+
+PRINT(".\Listings\TT_KTMT.map")

@@ -1,0 +1,44 @@
+C51 COMPILER V9.60.0.0   VI_DU_3                                                           10/08/2022 14:08:44 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE VI_DU_3
+OBJECT MODULE PLACED IN .\Objects\Vi_du_3.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Bai 6\Bai_tap_1\Vi_du_3.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\Vi_du_3.lst) TABS(2) OBJECT(.\Objects\Vi_du_3.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          sbit led = P2^1;
+   3          
+   4          void delay100us(){
+   5   1        TMOD = 0x20;
+   6   1        TH1 = 0x9C;
+   7   1        TR1 = 1;
+   8   1        while(TF1 == 0);
+   9   1        TR1 = 0;
+  10   1        TF1 = 0;
+  11   1      }
+  12          
+  13          void main(void)
+  14          {
+  15   1        while(1)
+  16   1        {
+  17   2          led =!led;
+  18   2          delay100us();
+  19   2        }
+  20   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     23    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

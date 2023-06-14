@@ -1,0 +1,47 @@
+C51 COMPILER V9.60.0.0   VI_DU                                                             10/22/2022 14:03:49 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE VI_DU
+OBJECT MODULE PLACED IN .\Objects\vi_du.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Bai 8\Bai_tap_1\vi_du.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\8051_Lib
+                    -\libraries-20221022T064321Z-001\libraries) DEBUG PRINT(.\Listings\vi_du.lst) TABS(2) OBJECT(.\Objects\vi_du.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "delay.h"
+   3          #include "LCD2004.h"
+   4          
+   5          void main(void)
+   6          {
+   7   1        char c = 'A';
+   8   1        LCD_Init();
+   9   1        LCD_String_xy(0,0,"Hoang Thanh Dat");
+  10   1        LCD_String_xy(1,0,"20119214");
+  11   1        LCD_String_xy(2,0,"KTMT");
+  12   1        LCD_SetPosition(3,0);
+  13   1        LCD_String("Char: ");
+  14   1        while(1){
+  15   2          LCD_Char(c);
+  16   2          c++;
+  17   2          delayMs(1000);
+  18   2        }
+  19   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     76    ----
+   CONSTANT SIZE    =     37    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

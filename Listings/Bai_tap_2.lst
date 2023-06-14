@@ -1,0 +1,156 @@
+C51 COMPILER V9.60.0.0   BAI_TAP_2                                                         10/22/2022 11:12:56 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BAI_TAP_2
+OBJECT MODULE PLACED IN .\Objects\Bai_tap_2.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Bai 7\Bai_tap_2\Bai_tap_2.c OMF2 OPTIMIZE(8,SPEED) BROWSE DEBUG PRINT(.\
+                    -Listings\Bai_tap_2.lst) TABS(2) OBJECT(.\Objects\Bai_tap_2.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include <string.h>
+   3          
+   4          sbit led1 = P2^1;
+   5          sbit led2 = P2^2;
+   6          sbit led3 = P2^3;
+   7          unsigned int dcount = 0;
+   8          unsigned long count = 0;
+   9          unsigned char flag = 0;
+  10          unsigned char revData;
+  11          unsigned int n;
+  12          char target1[];
+  13          
+  14          void ISR_timer0() interrupt 1
+  15          {
+  16   1        TH0 = 0x3C;
+  17   1        TL0 = 0xB0;
+  18   1        dcount++;
+  19   1      }
+  20          
+  21          void delay50MS(unsigned int t){
+  22   1        TMOD = 0x01;
+  23   1        TH0 = 0x3C;
+  24   1        TL0 = 0xB0;
+  25   1        IE = 0x82;
+  26   1        dcount = 0;
+  27   1        TR0 = 1;
+  28   1        while(dcount <t);
+  29   1        IE = 0;
+  30   1        TR0 = 0;
+  31   1      }
+  32          
+  33          void serial_init(void)
+  34          {
+  35   1        TMOD = 0x20;
+  36   1        TH1 = 0xFD;
+  37   1        SCON = 0x50;
+  38   1        TR1 = 1;
+  39   1        
+  40   1        EA = 1;
+  41   1        ES = 1;
+  42   1      }
+  43          
+  44          void serial_send(unsigned char x)
+  45          { 
+  46   1        SBUF = x;
+  47   1        while (TI == 0);
+  48   1        TI = 0;
+  49   1      }
+  50          
+  51          void serial_ISR(void) interrupt 4
+  52          {
+  53   1        if(RI == 1){
+  54   2          revData = SBUF;
+C51 COMPILER V9.60.0.0   BAI_TAP_2                                                         10/22/2022 11:12:56 PAGE 2   
+
+  55   2          RI = 0;
+  56   2          
+  57   2          flag = 1;
+  58   2        }
+  59   1      }
+  60          
+  61          //void serial_sendchuoi(char *a)
+  62          //{
+  63          //int i,n;
+  64            //n = strlen(a);
+  65            //for(i = 0;i<n;i++)
+  66            //{
+  67              //serial_send(a[i]);
+  68            //}
+  69          //}
+  70          
+  71          void sendsonguyen(unsigned long n){       // Ð?nh nghia hàm goi 1 so nguyên       
+  72   1      if(n!=0)                                             //Tru?ng hop so nguyên #0
+  73   1       {
+  74   2        unsigned char a[11];                        //mang chua các ký tu so sau khi tách s?
+  75   2        int i;                                        //bien chua so cho vòng for
+  76   2        for(i=0;n>0;i++)                  //Vòng lap tách các chu so thành ký tu
+  77   2        {
+  78   3         a[i]=(n%10)+48;      //tách lay chu so hàng don vi,mã hóa ASCII
+  79   3         n=n/10;                      //loai bo chu so hàng don v?
+  80   3        }
+  81   2        a[i]=NULL;                           //ký tu cuoi cùng cua chuoi phai là NULL
+*** WARNING C260 IN LINE 81 OF Bai 7\Bai_tap_2\Bai_tap_2.c: '=': pointer truncation
+  82   2        for(i=strlen(a);i>=0;i--)              //Vòng lap gui lan luot tung ký tu lên,
+  83   2        {                                                      //cho den khi het chuoi a[].
+  84   3         serial_send(a[i]);                             //Goi hàm gui 1 ký tu.         
+  85   3        }
+  86   2      }
+  87   1      else serial_send('0');}
+  88          
+  89          
+  90          void ledBlink(int n){
+  91   1        int i;
+  92   1        for(i = 0 ;i<n;i++){
+  93   2          led3 = !led3;
+  94   2          delay50MS(10);
+  95   2        }
+  96   1      }
+  97          void main (void)
+  98          {
+  99   1        int i;
+ 100   1        led1 = 0;
+ 101   1        led2 = 0;
+ 102   1        led3 = 0;
+ 103   1        serial_init();
+ 104   1        while(1)
+ 105   1        {
+ 106   2          if(flag == 1)
+ 107   2          {
+ 108   3            if(revData == '1') led1 = 1;
+ 109   3            if(revData == '2') led1 = 0;
+ 110   3            if(revData == '3') led2 = 1;
+ 111   3            if(revData == '4') led2 = 0;
+ 112   3            if(revData) count++;
+ 113   3            if(revData == '5')
+ 114   3            {
+ 115   4              
+C51 COMPILER V9.60.0.0   BAI_TAP_2                                                         10/22/2022 11:12:56 PAGE 3   
+
+ 116   4            }
+ 117   3            sendsonguyen(count);
+ 118   3            serial_send(10);
+ 119   3            flag = 0;
+ 120   3          }
+ 121   2        }
+ 122   1      }
+*** WARNING C280 IN LINE 99 OF Bai 7\Bai_tap_2\Bai_tap_2.c: 'i': unreferenced local variable
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    392    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10      19
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

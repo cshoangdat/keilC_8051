@@ -1,0 +1,48 @@
+C51 COMPILER V9.60.0.0   BAI_TAP_1                                                         10/08/2022 13:49:53 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BAI_TAP_1
+OBJECT MODULE PLACED IN .\Objects\Bai_tap_1.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Bai 6\Bai_tap_1.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Li
+                    -stings\Bai_tap_1.lst) TABS(2) OBJECT(.\Objects\Bai_tap_1.obj)
+
+line level    source
+
+   1          #include  <REGX52.H>
+   2          sbit led = P2^1;
+   3          void delay1MS(){
+   4   1        TMOD = 0X01;
+   5   1        TH0 = 0XFC;
+   6   1        TL0 = 0X18;
+   7   1        TR0 = 1;
+   8   1        while(TF0==0);
+   9   1        TR0 = 0;
+  10   1        TF0 = 0;
+  11   1      }
+  12          
+  13          void delay(unsigned int t){
+  14   1        int i;
+  15   1        for(i = 0; i <t; i++)
+  16   1        delay1MS();
+  17   1      }
+  18          
+  19          void main (void){
+  20   1        while(1){
+  21   2          led = !led;
+  22   2          delay(500);
+  23   2        }
+  24   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     51    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

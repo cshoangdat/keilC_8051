@@ -1,0 +1,112 @@
+C51 COMPILER V9.60.0.0   BAI_TAP_3                                                         11/05/2022 15:17:17 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BAI_TAP_3
+OBJECT MODULE PLACED IN .\Objects\Bai_tap_3.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Bai 10\Bai_tap_3\Bai_tap_3.c OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(..\805
+                    -1_Lib\libraries-20221022T064321Z-001\libraries) DEBUG PRINT(.\Listings\Bai_tap_3.lst) TABS(2) OBJECT(.\Objects\Bai_tap_3
+                    -.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "delay.h"
+   3          #include "LCD2004.h"
+   4          #include "keypad4x4.h"
+   5          #include "dht11.h"
+   6          #include "stdio.h"
+   7          #include <String.h>
+   8          sbit led = P2^0;
+   9          void main(void)
+  10          {
+  11   1        char temp_value[30];
+  12   1        char num1 = 0;
+  13   1        char num2 = 0;
+  14   1        char num3 = 0;
+  15   1        char num4 = 0;
+  16   1        int num_up;
+  17   1        int num_down;
+  18   1        int i;
+  19   1        unsigned char res;
+  20   1        unsigned char res_update;
+  21   1        led = 0;
+  22   1        LCD_Init();
+  23   1        //LCD_Command(0x0C);
+  24   1        initKeypad();
+  25   1        while(1)
+  26   1        {
+  27   2          res = dht_read();
+  28   2          LCD_String_xy(0,0,"Nguong tren: ");
+  29   2          LCD_String_xy(1,0,"Nguong duoi: ");
+  30   2          
+  31   2          //doc gia tri nhiet do
+  32   2          LCD_String_xy(2,0,"Nhiet do: ");
+  33   2          sprintf(temp_value,"%d",(int)temp);
+  34   2          LCD_String_xy(2,10,temp_value);
+  35   2          LCD_String_xy(2,13,"oC");
+  36   2          delayMs(100);
+  37   2          
+  38   2          //nguong tren
+  39   2          LCD_SetPosition(0,13);
+  40   2          num1 = ReadKeyPressed();
+  41   2          LCD_Char(num1);
+  42   2          delayMs(200);
+  43   2          LCD_SetPosition(0,14);
+  44   2          num2 = ReadKeyPressed();
+  45   2          LCD_Char(num2);
+  46   2          delayMs(200);
+  47   2          num_up = (num1-48)*10+(num2 -48);
+  48   2          
+  49   2          //nguong duoi
+  50   2          LCD_SetPosition(1,13);
+  51   2          num3 = ReadKeyPressed();
+  52   2          LCD_Char(num3);
+  53   2          delayMs(200);
+C51 COMPILER V9.60.0.0   BAI_TAP_3                                                         11/05/2022 15:17:17 PAGE 2   
+
+  54   2          LCD_SetPosition(1,14);
+  55   2          num4 = ReadKeyPressed();
+  56   2          LCD_Char(num4);
+  57   2          delayMs(200);
+  58   2          num_down = (num3-48)*10 + (num4-48);
+  59   2          
+  60   2          //main
+  61   2          if(num_up<=num_down){
+  62   3            LCD_String_xy(3,0,"vui long nhap lai");
+  63   3            delayMs(500);
+  64   3            LCD_Command(0x01);
+  65   3          }
+  66   2          if(num_up>num_down){
+  67   3            if((int)temp > num_up || (int)temp<num_down){
+  68   4              LCD_String_xy(3,0,"Warning!!! Warning!!!");
+  69   4              while((int)temp > num_up || (int)temp < num_down){
+  70   5                led = ~led;
+  71   5                delayMs(200);
+  72   5                }
+  73   4              }
+  74   3            else{
+  75   4              LCD_String_xy(3,0,"Nhiet do on dinh");
+  76   4            }
+  77   3          }
+  78   2        }
+  79   1      }
+*** WARNING C280 IN LINE 18 OF Bai 10\Bai_tap_3\Bai_tap_3.c: 'i': unreferenced local variable
+*** WARNING C280 IN LINE 20 OF Bai 10\Bai_tap_3\Bai_tap_3.c: 'res_update': unreferenced local variable
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    460    ----
+   CONSTANT SIZE    =    102    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      42
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

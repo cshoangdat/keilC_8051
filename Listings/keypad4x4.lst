@@ -1,0 +1,104 @@
+C51 COMPILER V9.60.0.0   KEYPAD4X4                                                         11/05/2022 15:17:17 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE KEYPAD4X4
+OBJECT MODULE PLACED IN .\Objects\keypad4x4.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\8051_Lib\libraries-20221022T064321Z-001\libraries\keypad4x4.c OMF2 OP
+                    -TIMIZE(8,SPEED) BROWSE INCDIR(..\8051_Lib\libraries-20221022T064321Z-001\libraries) DEBUG PRINT(.\Listings\keypad4x4.lst
+                    -) TABS(2) OBJECT(.\Objects\keypad4x4.obj)
+
+line level    source
+
+   1          #include "keypad4x4.h"
+   2          
+   3          const unsigned char ucaKeyPad[4][4] =           //Key Pad 4x3
+   4          {
+   5              {'7','8','9','/'},
+   6            {'4','5','6','*'},
+   7            {'1','2','3','-'},     
+   8              {'C','0','=','+'}
+   9          };
+  10          
+  11          void initKeypad()
+  12          {
+  13   1        KEYPAD = 0x0F; //Make Row O/p & Col I/p
+  14   1      }
+  15          
+  16          char ReadKeyPressed(void)
+  17          {
+  18   1          char ucData='p';
+  19   1          while('p' == ucData)
+  20   1          {
+  21   2              ucData = Check_Column();
+  22   2          }
+  23   1          return ucData;
+  24   1      }
+  25          char Check_Column(void)
+  26          {
+  27   1          short siColNumber=0;
+  28   1      
+  29   1          for(siColNumber = 0; siColNumber < MAX_ROW; siColNumber++)
+  30   1          {
+  31   2              DoResetRow(siColNumber); /*Reset the row*/
+  32   2              if(COL_1 == 0)
+  33   2              {
+  34   3                  delayMs(300);
+  35   3                  return ucaKeyPad[siColNumber][0];
+  36   3              }
+  37   2              if(COL_2 == 0)
+  38   2              {
+  39   3                  delayMs(300);
+  40   3                  return ucaKeyPad[siColNumber][1];
+  41   3              }
+  42   2              if(COL_3 == 0)
+  43   2              {
+  44   3                  delayMs(300);
+  45   3                  return ucaKeyPad[siColNumber][2];
+  46   3              }
+  47   2              if(COL_4 == 0)
+  48   2              {
+  49   3                  delayMs(300);
+  50   3                  return ucaKeyPad[siColNumber][3];
+  51   3              }
+  52   2          }
+  53   1          return 'p';
+C51 COMPILER V9.60.0.0   KEYPAD4X4                                                         11/05/2022 15:17:17 PAGE 2   
+
+  54   1      }
+  55          void DoResetRow(short siRowNumber)
+  56          {
+  57   1          ROW_1=ROW_2=ROW_3=ROW_4= 1; /*Make all row high*/
+  58   1          switch(siRowNumber)
+  59   1          {
+  60   2          case 0:
+  61   2              ROW_1 =0;
+  62   2              break;
+  63   2          case 1:
+  64   2              ROW_2 =0;
+  65   2              break;
+  66   2          case 2:
+  67   2              ROW_3 =0;
+  68   2              break;
+  69   2          case 3:
+  70   2              ROW_4 =0;
+  71   2              break;
+  72   2          }
+  73   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    172    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

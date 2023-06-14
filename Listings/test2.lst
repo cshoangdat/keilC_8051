@@ -1,0 +1,68 @@
+A51 MACRO ASSEMBLER  TEST2                                                                09/16/2022 17:59:39 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\test2.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE test2.asm SET(SMALL) DEBUG PRINT(.\Listings\test2.lst) OBJECT(.\Objects
+                      \test2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     org 00h
+0000 7401              2             mov a,#1
+0002 7800              3             mov r0,#0
+                       4             
+0004                   5             main:
+0004 110A              6             call ledBlink
+0006 1119              7             call oneLedShiftLeft
+0008 80FA              8             jmp main
+                       9             
+000A                  10     ledBlink:
+000A 759000           11             mov p1,#0
+000D 1124             12             call delay
+000F 7590FF           13             mov p1,#255
+0012 1124             14             call delay
+0014 08               15             inc r0
+0015 B80AF2           16             cjne r0,#10,ledBlink
+0018 22               17     ret
+                      18     
+0019                  19     oneLedShiftLeft:
+0019 F590             20             mov p1,a
+001B 23               21             rl a
+001C 1124             22             call delay
+001E B480F8           23             cjne a,#128,oneLedShiftLeft
+0021 F590             24             mov p1,a
+0023 22               25     ret
+                      26     
+0024                  27     delay:
+0024 790A             28             mov r1,#10
+0026                  29             lap1:
+0026 7A64             30             mov r2, #100
+0028                  31             lap2:
+0028 7B64             32             mov r3, #100
+002A DBFE             33             djnz r3,$
+002C DAFA             34             djnz r2,lap2
+002E D9F6             35             djnz r1,lap1
+0030 22               36     ret
+                      37     end
+A51 MACRO ASSEMBLER  TEST2                                                                09/16/2022 17:59:39 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0024H   A   
+LAP1 . . . . . . .  C ADDR   0026H   A   
+LAP2 . . . . . . .  C ADDR   0028H   A   
+LEDBLINK . . . . .  C ADDR   000AH   A   
+MAIN . . . . . . .  C ADDR   0004H   A   
+ONELEDSHIFTLEFT. .  C ADDR   0019H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
